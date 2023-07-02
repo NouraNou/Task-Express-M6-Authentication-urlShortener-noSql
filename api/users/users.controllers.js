@@ -3,6 +3,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 const { JWT_SECRET, JWT_EXPIRATION_MS } = require("../config/keys");
+
 const generateToken = (user) => {
   const payload = {
     username: user.username,
@@ -26,6 +27,12 @@ exports.signin = async (req, res) => {
   } catch (err) {
     res.status(500).json("Server Error");
   }
+};
+
+const hashPassword = async (password) => {
+  const saltRounds = 10;
+  const hashedPassword = await bcrypt.hash(password, saltRounds);
+  return hashPassword;
 };
 
 exports.signup = async (req, res, next) => {
